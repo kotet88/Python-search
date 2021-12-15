@@ -1,0 +1,20 @@
+import folium
+import requests
+
+locat = input ("What station info do you need: ")
+input = requests.get('https://subway-map.herokuapp.com/').json()
+#print (data)
+         #loop runs infinitely
+flag=0
+#station = "233rd St"
+m = folium.Map(location=[input[0]['entrancelat'], input[0]['entrancelong']], zoom_start=14)  #shows locations of the specified stations
+stationlist=[]
+for data in input: 
+  if locat in data['stationname']:
+                  #going through each station's name
+    folium.Marker([data['entrancelat'], data['entrancelong']], popup=data['stationname']).add_to(m) #adds map markers for each station
+        
+    #popup menu for each locations: subwayline, routes, entrancetype, entry, ada, freecrossover
+print()
+
+m.save(outfile='tempMap.html')
